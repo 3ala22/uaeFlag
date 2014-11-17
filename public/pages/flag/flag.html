@@ -1,0 +1,17 @@
+<div class="flag-page">
+    <div id="flag" ng-class="{flash:flash}">
+        <h2 class="count">{{ imageCount}} Photos</h2>
+        <div class="placeholder" ng-class="[color(placeholder), feature(placeholder)]"  ng-repeat="placeholder in placeholders">
+            <img ng-if="placeholder.image" class="image" ng-src="{{'assets/'+placeholder.image.source+'/'+placeholder.image.source_id+'.thumb.jpg'}}">
+        </div>
+    </div>
+    <div class="footer">
+        <div class="logo logo-left">
+            <img src="assets/emiratesNBDlogo.png" alt=""/>
+        </div>
+        <div class="text">Happy 43rd National Day!</div>
+        <div class="logo logo-right">
+            <img src="assets/emiratesNBDlogo.png" alt=""/>
+        </div>
+    </div>
+</div>

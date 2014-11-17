@@ -1,0 +1,48 @@
+<div class="container">
+    <h1 class="page-header">Photos</h1>
+
+    <ul class="nav nav-pills nav-stacked col-md-2">
+        <li role="presentation" ng-class="{ active: isActive(status.new) }">
+            <a ng-click="setMode(status.new)">New</a>
+        </li>
+        <li role="presentation" ng-class="{ active: isActive(status.approved) }">
+            <a ng-click="setMode(status.approved)">Approved</a>
+        </li>
+        <li role="presentation" ng-class="{ active: isActive(status.rejected) }">
+            <a ng-click="setMode(status.rejected)">Rejected</a>
+        </li>
+    </ul>
+
+    <div class="col-md-10">
+        <div class="row">
+        <pagination class=""
+                    ng-if="mode !== status.new"
+                    direction-links="false"
+                    boundary-links="true"
+                    max-size="5"
+                    items-per-page="paginator.limit"
+                    total-items="paginator.total"
+                    ng-model="paginator.currentPage"
+                    ng-change="pageChanged()">
+        </pagination>
+        </div>
+        <div class="row">
+            <div class="thumbnail" ng-repeat="image in images | filter:{status:mode}">
+                <i class="fa fa-check" ng-if="image.status === status.approved"></i>
+                <i class="fa fa-times" ng-if="image.status === status.rejected"></i>
+                <img class="img-responsive" ng-src="{{'assets/'+image.source+'/'+image.source_id+'.small.jpg'}}" alt="">
+
+                <div class="caption">
+                    <p>
+                        <a class="btn btn-primary" ng-disabled="image.status === status.approved"
+                           ng-click="changeStatus(image,status.approved)">Approve</a>
+                        <a class="btn btn-danger" ng-disabled="image.status === status.rejected"
+                           ng-click="changeStatus(image,status.rejected)">Reject</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

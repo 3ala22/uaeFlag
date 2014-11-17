@@ -1,0 +1,112 @@
+.image.ng-enter, .image.ng-leave {
+    -webkit-transition:1s linear all;
+    transition:1s linear all;
+}
+
+.image.ng-enter {
+    opacity: 0;
+}        /* starting animations for enter */
+.image.ng-enter.ng-enter-active {
+    opacity: 0.45;
+}  /* terminal animations for enter */
+.image.ng-leave { }        /* starting animations for leave */
+.image.ng-leave.ng-leave-active { } /* terminal animations for leave */
+
+
+.red-add, .green-add, .black-add, .white-add{
+    -webkit-transition:all linear 2s;
+    transition:all linear 2s;
+}
+
+.red-add, .green-add, .black-add, .white-add {
+    background-color: #000000;
+}
+
+.red-add.red-add-active{
+    background-color: #FF0000;
+}
+
+.green-add.green-add-active{
+    background-color: #00732F;
+}
+
+.white-add.white-add-active{
+    background-color: #FFFFFF;
+}
+
+.black-add.black-add-active{
+    background-color: #000000;
+}
+
+
+/*.feature-add {*/
+    /*-webkit-transform: scale(4,4);*/
+    /*-webkit-transition: 1s ease-out;*/
+    /*transform: scale(4,4);*/
+    /*transition: 1s ease-out;*/
+/*}*/
+
+/*.feature-add.feature-add-active {*/
+    /*transform: scale(1,1);*/
+/*}*/
+
+/*.feature .image{*/
+    /*opacity: 1 !important;*/
+/*}*/
+/*.feature-add, .feature-remove{*/
+    /*transition: all 2s linear;*/
+    /*-webkit-transition: all 2s linear;*/
+/*}*/
+/*.feature-add .image, .feature-remove .image{*/
+    /*transition: all 2s linear;*/
+    /*-webkit-transition: all 2s linear;*/
+/*}*/
+
+/*.feature-add .image { *//* featured image add start*/
+    /*opacity: 0.45 !important;*/
+/*}*/
+/*.feature-add.feature-add-active .image{ *//* featured image add end*/
+    /*opacity: 1 !important;*/
+/*}*/
+
+/*.feature-remove .image { *//* featured image remove start*/
+    /*opacity: 1 !important;*/
+/*}*/
+/*.feature-remove.feature-remove-active .image{ *//* featured image remove end*/
+    /*opacity: 0.45 !important;*/
+/*}*/
+
+.feature .image{
+    opacity: 1 !important;
+    position: absolute;
+    z-index:100;
+    transform: scale(2);
+    -webkit-transform: scale(2);
+    transition: all 1s linear;
+    -webkit-transition: all 1s linear;
+}
+
+
+.flash .image {
+    opacity: 0 !important;
+}
+.flash-add, .flash-add .image, .flash-remove, .flash-remove .image{
+    transition: all 3s linear;
+    -webkit-transition: all 3s linear;
+}
+.flash-add .image {
+    opacity: 0.45 !important;
+}
+.flash-add.flash-add-active .image {
+    opacity: 0 !important;
+}
+
+
+.flash-remove .image {
+    opacity: 0 !important;
+}
+.flash-remove.flash-remove-active .image {
+    opacity: 0.45 !important;
+}
+
+
