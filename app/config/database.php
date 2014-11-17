@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'instagram-flag.mysql.eu1.frbit.com',
-			'database'  => 'instagram-flag',
-			'username'  => 'instagram-flag',
-			'password'  => '8DeTnXXR6WAt4Vrk',
+			'host'      => 'localhost',
+			'database'  => 'uaeflag',
+			'username'  => 'root',
+			'password'  => 'r00t@hills',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
