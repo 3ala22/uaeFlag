@@ -77,6 +77,9 @@
 /*}*/
 
 .feature .image{
+    width: 150px;
+    height:150px;
+
     opacity: 1 !important;
     position: absolute;
     z-index:100;

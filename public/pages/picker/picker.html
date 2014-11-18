@@ -50,8 +50,8 @@
                 <div class="thumbnail" ng-repeat="image in filteredImages = (images | filter:{status:mode})">
                     <i class="fa fa-check" ng-if="image.status === status.approved"></i>
                     <i class="fa fa-times" ng-if="image.status === status.rejected"></i>
-                    <img class="img-responsive" ng-src="{{'assets/'+image.source+'/'+image.source_id+'.small.jpg'}}"
-                         alt="">
+                    <img ng-if="image.source !== 'media_pole'" class="img-responsive" ng-src="{{'assets/'+image.source+'/'+image.source_id+'.small.jpg'}}">
+                    <img ng-if="image.source === 'media_pole'" class="img-responsive" ng-src="{{'assets/'+image.source+'/'+image.source_id}}">
 
                     <div class="caption">
                         <h3>Source: <b>{{image.source | sourceText}}</b></h3>

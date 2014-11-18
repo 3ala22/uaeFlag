@@ -2,6 +2,7 @@
 /vendor
 /public/assets/instagram/*
 /public/assets/twitter/*
+/public/assets/media_pole/*
 .idea/
 composer.phar
 composer.lock
