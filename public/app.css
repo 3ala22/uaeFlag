@@ -82,6 +82,10 @@
 
 .picker{ padding-top: 70px; }
 
+.picker .logo
+{
+    float:right;
+}
 .thumbnail
 {
     position:relative;
