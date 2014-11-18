@@ -12,7 +12,10 @@ angular.module('instagramFlag.picker', [
             templateUrl: 'pages/picker/picker.html'
         });
     }])
-    .controller('pickerCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+    .controller('pickerCtrl', ['$scope', '$http', '$timeout','$location','Authenticate', function ($scope, $http, $timeout,$location, Authenticate) {
+        if (!sessionStorage.authenticated){
+            $location.path('/login')
+        }
         $scope.images = [];
         $scope.paginator = {
             currentPage: 1
@@ -69,6 +72,27 @@ angular.module('instagramFlag.picker', [
             return $scope.mode === mode;
         };
 
+        $scope.logout = function (){
+            Authenticate.get({},function(){
+                delete sessionStorage.authenticated;
+                $location.path('/login');
+            })
+        }
+
         init();
 
-    }]);
+    }])
+    .filter('sourceText', function() {
+        return function(input) {
+            switch(input) {
+                case 'twitter':
+                    return 'Twitter';
+                case 'instagram':
+                    return 'Instagram';
+                case 'media_pole':
+                    return 'Media Pole';
+                default: return '';
+
+            }
+        };
+    });

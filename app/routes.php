@@ -16,8 +16,13 @@ Route::get('/', function () {
 
 });
 
-Route::group(array('prefix'=>'api'), function(){
+Route::group(array('prefix'=>'api','before' => array('serviceAuth')), function(){
     Route::resource('photo','PhotoController');
+});
+
+Route::group(array('prefix' => 'service'), function() {
+
+    Route::resource('authenticate', 'AuthenticationController');
 });
 
 
@@ -39,7 +44,7 @@ Route::get('/twitter/photos', function(){
 
     $twitterClient = App::make('Hills\Twitter\TwitterClient');
 
-    $photos =  $twitterClient->getTagImages('girls');
+    $photos =  $twitterClient->getTagImages('fun');
 
     return View::make('album',['photos'=>$photos]);
 });

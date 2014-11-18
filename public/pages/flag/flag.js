@@ -59,22 +59,23 @@ angular.module('instagramFlag.flag', [
             //$scope.flash = false;
             $scope.flagFull = false;
 
-            $scope.$watch('flagFull', function(isFull){
-               if(isFull)
-                   $timeout(function(){
-                       //$scope.flash = false;
-                       $timeout(feature, 4000);
-                   },4000);
-                   //$timeout(function(){ //start flash animation
-                   //    $scope.flash = true;
-                   //
-                   //},2000);
-            });
+            //$scope.$watch('flagFull', function(isFull){
+            //   //if(isFull)
+            //   //    $timeout(function(){
+            //   //        //$scope.flash = false;
+            //   //        $timeout(feature, 4000);
+            //   //    },4000);
+            //       //$timeout(function(){ //start flash animation
+            //       //    $scope.flash = true;
+            //       //
+            //       //},2000);
+            //});
 
             $scope.imageCount = 0;
 
             // start getting images
             getImages();
+            $timeout(feature, 6000);
         }
 
         function getImages() {

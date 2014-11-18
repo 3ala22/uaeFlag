@@ -25,14 +25,21 @@
 {{--    {{ HTML::script('bower_components/jquery/dist/jquery.js') }}--}}
     {{ HTML::script('bower_components/angular/angular.js') }}
     {{ HTML::script('bower_components/angular-route/angular-route.js') }}
-    {{ HTML::script('bower_components/angular-animate/angular-animate.js') }}
+    {{ HTML::script('bower_components/angular-resource/angular-resource.min.js') }}
+    {{ HTML::script('bower_components/angular-sanitize/angular-sanitize.min.js') }}
+    {{ HTML::script('bower_components/angular-animate/angular-animate.min.js') }}
     {{ HTML::script('bower_components/angular-queue/angular-queue.js') }}
     {{ HTML::script('bower_components/underscore/underscore-min.js') }}
     {{ HTML::script('bower_components/ui-bootstrap/ui-bootstrap-custom-0.11.2.min.js') }}
     {{ HTML::script('bower_components/ui-bootstrap/ui-bootstrap-custom-tpls-0.11.2.min.js') }}
 
     {{ HTML::script('app.js') }}
+    {{ HTML::script('pages/login/login.js') }}
     {{ HTML::script('pages/flag/flag.js') }}
     {{ HTML::script('pages/picker/picker.js') }}
+
+    <script>
+        angular.module("instagramFlag").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
+    </script>
 </body>
 </html>

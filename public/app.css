@@ -80,6 +80,8 @@
     display:none;
 }
 
+.picker{ padding-top: 70px; }
+
 .thumbnail
 {
     position:relative;
@@ -96,12 +98,15 @@
     font-size:72px;
 }
 
-
+.nav.navbar-nav li
+{
+    cursor: pointer;
+}
 
 .thumbnail img
 {
-    width:280px;
-    height: 280px;
+    width:250px;
+    height: 250px;
 }
 
 .thumbnail .caption p

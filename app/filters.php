@@ -54,6 +54,22 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+Route::filter('serviceAuth', function(){
+    if(!Auth::check()){
+        return Response::json([
+            'flash' => 'you should be connected to access this URL'
+        ], 401);
+    }
+});
+
+Route::filter('serviceCSRF',function(){
+    if (Session::token() != Request::header('csrf_token')) {
+        return Response::json([
+            'message' => 'I’m a teapot !!! you stupid hacker :D'
+        ], 418);
+    }
+});
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter

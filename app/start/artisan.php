@@ -12,3 +12,4 @@
 */
 
 Artisan::resolve('FetchPhotosCommand');
+Artisan::resolve('EmptyFoldersCommand');
