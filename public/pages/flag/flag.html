@@ -2,8 +2,7 @@
     <div id="flag" ng-class="{flash:flash}">
         <h2 class="count">{{ imageCount}} Photos</h2>
         <div class="placeholder" ng-class="[color(placeholder), feature(placeholder)]"  ng-repeat="placeholder in placeholders">
-            <img ng-if="placeholder.image && placeholder.image.source !== 'media_pole'" class="image" ng-src="{{'assets/'+placeholder.image.source+'/'+placeholder.image.source_id+'.thumb.jpg'}}">
-            <img ng-if="placeholder.image && placeholder.image.source === 'media_pole'" class="image" ng-src="{{'assets/'+placeholder.image.source+'/'+placeholder.image.source_id}}">
+            <img ng-if="placeholder.image" class="image" ng-src="{{'assets/'+placeholder.image.source+'/'+placeholder.image.source_id+'.thumb.jpg'}}">
         </div>
     </div>
     <div class="footer">
