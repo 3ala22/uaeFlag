@@ -60,7 +60,7 @@ Route::get('/images', function () {
     $lastUpdated = Input::get('lastUpdated');
     if($lastUpdated){
         $photos = Photo::where('status',2)
-            ->where('lastUpdated',$lastUpdated)
+            ->where('updated_at',$lastUpdated)
             ->get();
         $total = count($photos);
         if($total > 0) {

@@ -80,3 +80,16 @@ class ResizeImagesCommand extends Command {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
