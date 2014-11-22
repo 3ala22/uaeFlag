@@ -1,0 +1,42 @@
+.picker .logo
+{
+    float:right;
+}
+.thumbnail
+{
+    position:relative;
+    float:left;
+    display:inline-block;
+    margin:10px 5px;
+}
+.thumbnail i
+{
+    position:absolute;
+    top:30%;;
+    left:35%;
+    color: #f0ad4e;
+    font-size:72px;
+}
+
+.thumbnail img
+{
+    width:245px;
+    height: 245px;
+}
+
+.thumbnail .caption p
+{
+    text-align:center;
+}
+
+tfoot .pagination
+{
+    margin: 0;
+}
+
+.panel.report-table form{
+    padding:10px;
+}
+.panel.report-table form .form-group{
+    margin-bottom:0;
+}

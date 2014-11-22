@@ -13,3 +13,5 @@
 
 Artisan::resolve('FetchPhotosCommand');
 Artisan::resolve('EmptyFoldersCommand');
+Artisan::resolve('ResizeImagesCommand');
+Artisan::resolve('CreateImageSpriteCommand');

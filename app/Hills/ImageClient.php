@@ -1,6 +1,7 @@
 <?php namespace Hills;
 
 use Intervention\Image\Facades\Image;
+use Log;
 use Photo;
 use Setting;
 
@@ -76,7 +77,13 @@ abstract class ImageClient {
 
         foreach($images as $image)
         {
-            $this->storeImage($image);
+            try {
+                $this->storeImage($image);
+            }
+            catch(\Exception $e){
+                Log::error($e);
+                continue;
+            }
         }
     }
 

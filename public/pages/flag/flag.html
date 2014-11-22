@@ -1,17 +1,29 @@
 <div class="flag-page">
-    <div id="flag" ng-class="{flash:flash}">
+    <div id="flag" >
         <h2 class="count">{{ imageCount}} Photos</h2>
-        <div class="placeholder" ng-class="[color(placeholder), feature(placeholder)]"  ng-repeat="placeholder in placeholders">
-            <img ng-if="placeholder.image" class="image" ng-src="{{'assets/'+placeholder.image.source+'/'+placeholder.image.source_id+'.thumb.jpg'}}">
+        <div class="placeholder {{color(placeholder)}}" ng-repeat="placeholder in placeholders">
+            <!--<img src="assets/sprite.png" ng-if="placeholder.image" class="image" style="{{clipStyle(placeholder.image)}}">-->
+            <img ng-if="placeholder.image" class="image" style="{{clipStyle(placeholder.image)}}" >
         </div>
     </div>
     <div class="footer">
         <div class="logo logo-left">
             <img src="assets/emiratesNBDlogo.png" alt=""/>
         </div>
-        <div class="text">Happy 43rd National Day!</div>
+        <div class="bannerText" ng-switch on="bannerText">
+            <div class="text arabic" ng-switch-when="arabic">كل عام ووطننا بخير</div>
+            <div class="text" ng-switch-when="english">Happy 43<sup>rd</sup> National Day</div>
+        </div>
         <div class="logo logo-right">
             <img src="assets/emiratesNBDlogo.png" alt=""/>
+        </div>
+    </div>
+
+    <div class="featured-images-container">
+        <div class="featured-image" ng-repeat="featuredImage in featuredImages">
+            <img ng-if="featuredImage.image"
+                 ng-src="{{'assets/'+featuredImage.image.source+'/'+featuredImage.image.source_id+'.small.jpg'}}"
+                    style="{{featuredImage.style}}">
         </div>
     </div>
 </div>

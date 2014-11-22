@@ -5,6 +5,21 @@ class AuthenticationController extends \BaseController
 
     public function index()
     {
+        if (Auth::check()) {
+            return Response::json([
+                'user' => Auth::user()->toArray()
+            ]);
+        }
+        else{
+            return Response::json([
+                    'flash' => 'User not logged in'],
+                401
+            );
+        }
+    }
+
+    public function destroy()
+    {
         Auth::logout();
         return Response::json([
                 'flash' => 'you have been disconnected'],
@@ -31,7 +46,7 @@ class AuthenticationController extends \BaseController
 
         } else {
             return Response::json([
-                    'flash' => 'Authentication failed'],
+                    'flash' => 'Invalid username or password'],
                 401
             );
         }

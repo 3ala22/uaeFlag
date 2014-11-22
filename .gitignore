@@ -3,6 +3,8 @@
 /public/assets/instagram/*
 /public/assets/twitter/*
 /public/assets/media_pole/*
+/public/assets/sprites/*
+/public/assets/sprite.png
 .idea/
 composer.phar
 composer.lock

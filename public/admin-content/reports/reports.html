@@ -1,0 +1,149 @@
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-twitter fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{stats.twitter}}</div>
+                        <div>from Twiiter!</div>
+                    </div>
+                </div>
+            </div>
+            <a ng-click="filterSet('twitter')">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-instagram fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{stats.instagram}}</div>
+                        <div>from Instagram!</div>
+                    </div>
+                </div>
+            </div>
+            <a ng-click="filterSet('instagram')">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-camera fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{stats.media_pole}}</div>
+                        <div>from Media Poles!</div>
+                    </div>
+                </div>
+            </div>
+            <a ng-click="filterSet('media_pole')">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-lg">
+        <div class="panel panel-primary report-table">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Photos Report</div>
+            <div class="row">
+
+                <div class="col-xs-9">
+                    <form class="form-horizontal source-selector" role="form">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">Source: </label>
+
+                            <div class="col-xs-4">
+                                <select class="form-control" ng-model="sourceFilter">
+                                    <option value="">All</option>
+                                    <option value="twitter">Twitter</option>
+                                    <option value="instagram">Instagram</option>
+                                    <option value="media_pole">Media Pole</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-6">
+                                <p class="form-control-static">Total <b>{{paginator.total}}</b> records</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Source</th>
+                            <th>User</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="image in images">
+                            <td>{{image.created_at}}</td>
+                            <td>{{image.source}}</td>
+                            <td>{{image.user_name}}</td>
+                            <td>
+                                <span ng-if="image.status === status.new" class="label label-info">New</span>
+                                <span ng-if="image.status === status.approved"
+                                      class="label label-success">Approved</span>
+                                <span ng-if="image.status === status.rejected"
+                                      class="label label-danger">Rejected</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <pagination direction-links="false"
+                                            boundary-links="true"
+                                            max-size="5"
+                                            items-per-page="paginator.limit"
+                                            total-items="paginator.total"
+                                            ng-model="paginator.currentPage"
+                                            ng-change="pageChanged()"
+                                            ng-if="paginator.numOfPages > 1">
+                                </pagination>
+
+                            </td>
+
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

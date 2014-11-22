@@ -15,15 +15,21 @@ Route::get('/', function () {
     return View::make('main');
 
 });
+Route::get('/admin', function () {
+    return View::make('admin');
 
-Route::group(array('prefix'=>'api','before' => array('serviceAuth')), function(){
-    Route::resource('photo','PhotoController');
 });
 
-Route::group(array('prefix' => 'service'), function() {
+Route::group(array('prefix'=>'api'), function(){
 
-    Route::resource('authenticate', 'AuthenticationController');
+    Route::group(array('before' => array('serviceAuth')), function() {
+        Route::resource('photo', 'PhotoController');
+        Route::get('auth/logout', 'AuthenticationController@destroy');
+        Route::get('/stats', 'PhotoController@getStatistics');
+    });
+    Route::resource('auth', 'AuthenticationController');
 });
+
 
 
 
@@ -53,16 +59,45 @@ Route::get('/twitter/photos', function(){
 Route::get('/images', function () {
     $lastUpdated = Input::get('lastUpdated');
     if($lastUpdated){
-        $photos = Photo::where('updated_at','>',$lastUpdated)
-            ->where('status',2)
-            ->get()->take(1152)->toArray();
+        $photos = Photo::where('status',2)
+            ->where('lastUpdated',$lastUpdated)
+            ->get();
+        $total = count($photos);
+        if($total > 0) {
+            $ret = Photo::generateSprite($photos, 'assets/sprites/' . str_random(15));
+            $photos = $ret['photos'];
+        }
     }
     else
-        $photos = Photo::where('status',2)->get()->take(1152)->toArray();
+    {
+        $filename = 'assets/sprite';
+        $totalPhotos = 3120;
+        $photos = Photo::where('status',2)->get()->take($totalPhotos);
+        for($i = 0; $i<$totalPhotos; $i++){
+            $photos[$i]['pos'] = $i;
+            $photos[$i]['spriteUrl'] = $filename.'.png';
+        }
+        $total = Photo::where('status',2)->count();
+    }
 
     return Response::json([
         'data'=>$photos,
+        'total' => $total,
         'lastUpdated' => date('Y-m-d H:i:s')
+    ]);
+});
+
+Route::get('/getSprite', function () {
+
+    $photos = Photo::where('status',2)->where('source','instagram')->get()->take(3120);
+
+    $filename = Photo::generateSprite($photos);
+
+    return Response::json([
+        'data'=> [
+            'img'=>$filename.'.png',
+            'css'=>$filename.'.css'
+        ]
     ]);
 });
 

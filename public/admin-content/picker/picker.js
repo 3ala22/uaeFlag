@@ -1,44 +1,53 @@
 'use strict'
 
-angular.module('instagramFlag.picker', [
+angular.module('flagAdmin.picker', [
     'ngRoute',
-    'ngAnimate',
-    'ngQueue',
     'ui.bootstrap'
 ])
     .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/picker', {
+        $routeProvider.when('/photos/:mode', {
             controller: 'pickerCtrl',
-            templateUrl: 'pages/picker/picker.html'
+            templateUrl: 'admin-content/picker/picker.html'
         });
     }])
-    .controller('pickerCtrl', ['$scope', '$http', '$timeout','$location','Authenticate', function ($scope, $http, $timeout,$location, Authenticate) {
-        if (!sessionStorage.authenticated){
-            $location.path('/login')
-        }
+    .controller('pickerCtrl', ['$scope', '$http', '$timeout','$routeParams', function ($scope, $http, $timeout, $routeParams) {
         $scope.images = [];
         $scope.paginator = {
-            currentPage: 1
+            currentPage: 1,
+            numOfPages: 1
         };
         $scope.status = {
             new: 1,
             approved: 2,
             rejected: 3
         };
-        $scope.mode = $scope.status.new;
+        $scope.mode = null;
 
+        var fetchPhotosPromise = null;
 
         function init() {
+            $scope.mode = $scope.status[$routeParams.mode];
+
             getPhotos();
-            $timeout(fetchNewPhotos, 10000);
+            if ($routeParams.mode === 'new') {
+                fetchPhotosPromise = $timeout(fetchNewPhotos, 5000);
+
+                $scope.$on('$destroy', function () {
+                    $timeout.cancel(fetchPhotosPromise);
+                });
+            }
         }
 
         function getPhotos(page) {
             page = page || $scope.paginator.currentPage;
+            var limit = $scope.mode === $scope.status.new? 1000 : 20;
             $http.get('/api/photo', {
                 params: {
                     page: page,
-                    status: $scope.mode
+                    status: $scope.mode,
+                    limit: limit,
+                    sort: 'updated_at',
+                    order: 'desc'
                 }
             }).success(function (data) {
                 $scope.images = data.data;
@@ -48,10 +57,9 @@ angular.module('instagramFlag.picker', [
 
         function fetchNewPhotos() {
             if ($scope.mode === $scope.status.new) {
-                console.log('Getting new photos');
                 getPhotos();
             }
-            $timeout(fetchNewPhotos, 10000);
+            fetchPhotosPromise = $timeout(fetchNewPhotos, 5000);
         }
 
         $scope.changeStatus = function (image, newStatus) {
@@ -62,22 +70,6 @@ angular.module('instagramFlag.picker', [
         $scope.pageChanged = function () {
             getPhotos();
         };
-
-        $scope.setMode = function (newMode) {
-            $scope.mode = newMode;
-            $scope.paginator.currentPage = 1;
-            getPhotos();
-        };
-        $scope.isActive = function (mode) {
-            return $scope.mode === mode;
-        };
-
-        $scope.logout = function (){
-            Authenticate.get({},function(){
-                delete sessionStorage.authenticated;
-                $location.path('/login');
-            })
-        }
 
         init();
 
