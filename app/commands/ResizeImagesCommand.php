@@ -47,6 +47,10 @@ class ResizeImagesCommand extends Command {
             {
                 $this->error('Photo not found: ' . $photo->getOriginalFilePath());
             }
+            catch (\Exception $e)
+            {
+                $this->error('Photo could not be resized: ' . $photo->getOriginalFilePath());
+            }
         });
 
 	}
