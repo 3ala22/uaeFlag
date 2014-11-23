@@ -32,7 +32,7 @@
 
     {{ HTML::script('app.js') }}
     {{ HTML::script('pages/flag/flag.js') }}
-    {{ HTML::script('services/services.js') }}
+    {{--{{ HTML::script('services/services.js') }}--}}
 
     <script>
         angular.module("instagramFlag").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');

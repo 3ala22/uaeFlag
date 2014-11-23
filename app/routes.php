@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/flag', function () {
     return View::make('main');
 
 });
@@ -61,6 +61,7 @@ Route::get('/images', function () {
     if($lastUpdated){
         $photos = Photo::where('status',2)
             ->where('updated_at',$lastUpdated)
+//            ->take(200)
             ->get();
         $total = count($photos);
         if($total > 0) {
@@ -141,3 +142,9 @@ Route::get('/likes', function () {
 });
 
 
+Route::get('/',function() {
+    $tilesCount = 3120;
+    $imageSize = 24;
+
+    return View::make('flag.index',compact('tilesCount','imageSize'));
+});

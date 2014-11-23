@@ -3,8 +3,7 @@
 angular.module('instagramFlag.flag', [
     'ngRoute',
     'ngAnimate',
-    'ngQueue',
-    'hills.services'
+    'ngQueue'
 ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/', {
@@ -12,7 +11,7 @@ angular.module('instagramFlag.flag', [
             templateUrl: 'pages/flag/flag.html'
         });
     }])
-    .controller('flagCtrl', ['$scope', '$http', '$timeout', '$queue', 'preloader', function ($scope, $http, $timeout, $queue, preloader) {
+    .controller('flagCtrl', ['$scope', '$http', '$timeout', '$queue', function ($scope, $http, $timeout, $queue) {
         var i, WIDTH = 80,
             HEIGHT = 39,
             TOTAL_SIZE = WIDTH * HEIGHT,
@@ -76,14 +75,17 @@ angular.module('instagramFlag.flag', [
             $scope.spriteUrl = null;
 
             // featured images
-            $scope.featuredImages = [];
+            var fImages = [], style;
             for (i = 0; i < 12; i++) {
-                $scope.featuredImages.push({
+                style = getRandomPos();
+                fImages.push({
                     area: i,
                     image: null,
-                    style: getRandomPos()
+                    style: style
                 });
             }
+
+            $scope.featuredImages = fImages;
 
             // start getting images
             getImages();
