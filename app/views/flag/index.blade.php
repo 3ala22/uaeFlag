@@ -25,7 +25,7 @@
             <div class="text">Happy 43<sup>rd</sup> National Day</div>
         </div>
         <div class="logo logo-right">
-            <img src="assets/emiratesNBDlogo.png" alt=""/>
+            <img src="assets/emiratesNBDlogoArabic.png" alt=""/>
         </div>
     </div>
 
