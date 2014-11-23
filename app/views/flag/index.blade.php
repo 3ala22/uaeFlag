@@ -21,8 +21,12 @@
             <img src="assets/emiratesNBDlogo.png" alt=""/>
         </div>
         <div class="bannerText">
-            <div class="text arabic" style="display: none">كل عام ووطننا بخير</div>
             <div class="text">Happy 43<sup>rd</sup> National Day</div>
+            <div class="text arabic" style="display: none">كل عام ووطننا بخير</div>
+            <div class="text text-sm" style="display: none">To win AED 5000, take a selfie and share it on Instagram, using #LargestSelfieFlag</div>
+            <div class="text text-sm arabic" style="display: none">لربح 5,000 درهم، قم بالتقاط صورة سلفي خاصة بك وشاركها عبر الانستجرام باستخدام #LargestSelfieFlag</div>
+            <div class="text text-sm" style="display: none">Find the nearest interactive screen at The Beach and take a selfie</div>
+            <div class="text arabic" style="display: none; font-size: 38px">اعثر على أقرب شاشة تفاعلية في ذا بيتش والتقط صورة سلفي</div>
         </div>
         <div class="logo logo-right">
             <img src="assets/emiratesNBDlogoArabic.png" alt=""/>

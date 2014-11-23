@@ -13,7 +13,7 @@
             sliceSize: 50,
             insertDelay: 100,
             getImagesInterval: 15000,
-            toggleBannerInterval: 10000,
+            toggleBannerInterval: 5000,
             emptyThreshold: 500,
             firstFillThreshold: 750,
             featureStartDelay: 5000,
@@ -27,6 +27,7 @@
             this.emptyCount = this.totalSize;
             this.lastUpdated = null;
             this.images = [];
+            this.currentBannerIndex = 0;
 
             // show images
             this.bootstrapFlag();
@@ -124,20 +125,19 @@
         },
 
         toggleBanner: function () {
-            var me = this,
-                banners;
+            var me = this,nextIndex,
+                banners, current, next;
 
             banners = me.$bannerText.find('.text');
+            nextIndex = (me.currentBannerIndex +1) % banners.length;
 
-            if(banners.eq(0).is(":visible")){
-                banners.eq(0).hide();
-                banners.eq(1).slideDown();
-            }
-            else
-            {
-                banners.eq(0).slideDown();
-                banners.eq(1).hide();
-            }
+            current = banners.eq(me.currentBannerIndex);
+            next = banners.eq(nextIndex);
+
+            current.hide();
+            next.show();
+
+            me.currentBannerIndex = nextIndex;
 
             setTimeout($.proxy(me.toggleBanner, me), me.config.toggleBannerInterval);
         },

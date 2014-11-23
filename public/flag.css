@@ -38,26 +38,26 @@
     margin: 20px 40px;
     display:inline-block;
 }
+
 .footer .bannerText
 {
     display:inline-block;
     width: 1270px;
-    top:20px;
-    position:relative;
-    height:80px;
-    overflow:hidden;
-
+    text-align:center;
 }
 
-.bannerText .text
-{
-    left:350px;
-    position:absolute;
-    text-align: center;
-}
 .bannerText .text.arabic{
-    left:450px;
     font-size: 62px;
+    direction:rtl;
+}
+
+.text.text-sm
+{
+    font-size:34px;
+}
+.text.text-sm.arabic
+{
+    font-size:34px;
 }
 
 .placeholder {
