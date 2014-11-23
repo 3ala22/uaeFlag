@@ -57,6 +57,7 @@
 }
 .bannerText .text.arabic{
     font-size: 62px;
+    direction: rtl;
 }
 
 .text.text-sm

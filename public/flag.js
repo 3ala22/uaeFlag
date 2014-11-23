@@ -15,7 +15,7 @@
             getImagesInterval: 15000,
             toggleBannerInterval: 5000,
             emptyThreshold: 500,
-            firstFillThreshold: 750,
+            firstFillThreshold: 1250,
             featureStartDelay: 5000,
             featuredImagePeriod: 8000,
             nextFeatureDelay: 2000
