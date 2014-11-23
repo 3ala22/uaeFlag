@@ -32,27 +32,36 @@
     color:#ff9900;
     font-family:Frutiger,sans-serif;
     font-size: 55px;
+    height: 120px;
 }
 .footer .logo
 {
     margin: 20px 40px;
-    display:inline-block;
+    display:inline;
+    float:left;
+
 }
 
 .footer .bannerText
 {
-    display:inline-block;
+    margin-top: 20px;
+    display:inline;
     width: 1270px;
-    text-align:center;
+    overflow:hidden;
+    float:left;
 }
 
+.bannerText .text
+{
+    text-align: center;
+}
 .bannerText .text.arabic{
     font-size: 62px;
-    direction:rtl;
 }
 
 .text.text-sm
 {
+    margin-top:10px;
     font-size:34px;
 }
 .text.text-sm.arabic
