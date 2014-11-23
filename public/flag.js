@@ -12,7 +12,7 @@
         config: {
             sliceSize: 50,
             insertDelay: 100,
-            getImagesInterval: 5000,
+            getImagesInterval: 15000,
             toggleBannerInterval: 10000,
             emptyThreshold: 500,
             firstFillThreshold: 750,
