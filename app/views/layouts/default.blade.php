@@ -5,7 +5,7 @@
 	<title>Largest Selfie flag</title>
 	{{ HTML::style('bower_components/html5-boilerplate/css/normalize.css') }}
     {{ HTML::style('bower_components/html5-boilerplate/css/main.css') }}
-    {{ HTML::style('flag.css') }}
+    {{ HTML::style('flag.css'.'?'.time()) }}
 
     {{ HTML::script('bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js') }}
 </head>

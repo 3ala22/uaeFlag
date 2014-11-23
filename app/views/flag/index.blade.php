@@ -48,6 +48,6 @@
 {{ HTML::script('bower_components/jquery/dist/jquery.min.js') }}
 {{ HTML::script('bower_components/jquery-ui/jquery-ui.min.js') }}
 {{ HTML::script('bower_components/underscore/underscore-min.js') }}
-{{ HTML::script('flag.js') }}
+{{ HTML::script('flag.js'.'?'.time()) }}
 
 @stop
