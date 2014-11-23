@@ -148,9 +148,7 @@
                 emptySpots, randomSpot;
 
             if(me.images.length > 0) {
-                console.log(me.images);
                 imageToFeature = pickRandomElement(me.images);
-                console.log(imageToFeature);
                 emptySpots = me.$featureContainers.filter('.empty');
                 randomSpot = $(pickRandomElement(emptySpots));
 
