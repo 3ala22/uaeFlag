@@ -20,9 +20,9 @@ Route::get('/admin', function () {
 
 });
 
-Route::group(array('prefix'=>'api'), function(){
+Route::group(array('prefix' => 'api'), function () {
 
-    Route::group(array('before' => array('serviceAuth')), function() {
+    Route::group(array('before' => array('serviceAuth')), function () {
         Route::resource('photo', 'PhotoController');
         Route::get('auth/logout', 'AuthenticationController@destroy');
         Route::get('/stats', 'PhotoController@getStatistics');
@@ -31,73 +31,51 @@ Route::group(array('prefix'=>'api'), function(){
 });
 
 
-
-
-Route::get('/twitter', function(){
+Route::get('/twitter', function () {
 
     $twitterClient = App::make('Thujohn\Twitter\Twitter');
 
-    return $twitterClient->getSearch(['q'=>'#largest filter:images -filter:retweets','count'=>30,'format' => 'json']);
+    return $twitterClient->getSearch(['q' => '#largest filter:images -filter:retweets', 'count' => 30, 'format' => 'json']);
 });
 
-Route::get('/instagram', function(){
+Route::get('/instagram', function () {
     $instagramClient = App::make('andreyco.instagram');
 
     return json_encode($instagramClient->getTagMedia('largest'));
 });
 
-Route::get('/twitter/photos', function(){
+Route::get('/twitter/photos', function () {
 
     $twitterClient = App::make('Hills\Twitter\TwitterClient');
 
-    $photos =  $twitterClient->getTagImages('fun');
+    $photos = $twitterClient->getTagImages('fun');
 
-    return View::make('album',['photos'=>$photos]);
+    return View::make('album', ['photos' => $photos]);
 });
 
 
 Route::get('/images', function () {
     $lastUpdated = Input::get('lastUpdated');
-    if($lastUpdated){
-        $photos = Photo::where('status',2)
-            ->where('updated_at',$lastUpdated)
-//            ->take(200)
-            ->get();
-        $total = count($photos);
-        if($total > 0) {
-            $ret = Photo::generateSprite($photos, 'assets/sprites/' . str_random(15));
-            $photos = $ret['photos'];
-        }
-    }
-    else
-    {
-        $filename = 'assets/sprite';
-        $totalPhotos = 3120;
-        $photos = Photo::where('status',2)->get()->take($totalPhotos);
-        for($i = 0; $i<$totalPhotos; $i++){
-            $photos[$i]['pos'] = $i;
-            $photos[$i]['spriteUrl'] = $filename.'.png';
-        }
-        $total = Photo::where('status',2)->count();
-    }
+    $photos = Photo::where('status', 2)
+        ->where('updated_at', '>', $lastUpdated)
+        ->orderBy('updated_at')
+        ->get();
 
     return Response::json([
-        'data'=>$photos,
-        'total' => $total,
-        'lastUpdated' => date('Y-m-d H:i:s')
+        'data' => $photos
     ]);
 });
 
 Route::get('/getSprite', function () {
 
-    $photos = Photo::where('status',2)->where('source','instagram')->get()->take(3120);
+    $photos = Photo::where('status', 2)->where('source', 'instagram')->get()->take(3120);
 
     $filename = Photo::generateSprite($photos);
 
     return Response::json([
-        'data'=> [
-            'img'=>$filename.'.png',
-            'css'=>$filename.'.css'
+        'data' => [
+            'img' => $filename . '.png',
+            'css' => $filename . '.css'
         ]
     ]);
 });
@@ -114,7 +92,7 @@ Route::get('/auth', function () {
         $data = $instagramClient->getOAuthToken($code);
         if (isset($data->access_token)) {
             $user = User::where('user_id', '=', $data->user->id)->first();
-            if($user){  // user already exists
+            if ($user) {  // user already exists
                 return $user;
             }
             // else create new user
@@ -142,9 +120,9 @@ Route::get('/likes', function () {
 });
 
 
-Route::get('/',function() {
+Route::get('/', function () {
     $tilesCount = 3120;
     $imageSize = 24;
 
-    return View::make('flag.index',compact('tilesCount','imageSize'));
+    return View::make('flag.index', compact('tilesCount', 'imageSize'));
 });

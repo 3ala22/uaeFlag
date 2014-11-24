@@ -12,7 +12,7 @@
         config: {
             sliceSize: 50,
             insertDelay: 100,
-            getImagesInterval: 15000,
+            getImagesInterval: 5000,
             toggleBannerInterval: 5000,
             emptyThreshold: 500,
             firstFillThreshold: 1250,
@@ -25,7 +25,7 @@
             this.imageCount = 0;
             this.totalSize = this.$placeholders.length;
             this.emptyCount = this.totalSize;
-            this.lastUpdated = null;
+            this.lastUpdated = 0;
             this.images = [];
             this.currentBannerIndex = 0;
 
@@ -93,19 +93,25 @@
         getNewImages: function () {
             var me = this;
 
-            $.getJSON('/images', {lastUpdated: me.lastUpdated}, function (data) {
-                me.insertNewImages(data.total);
+            $.getJSON('/images', {lastUpdated: me.lastUpdated}, function (response) {
+                var newImagesCount = response.data.length;
 
-                me.imageCount += data.total;
-                me.images = me.images.concat(data.data);
-                me.lastUpdated = data.lastUpdated;
-                me.updateCounter();
-
+                if(newImagesCount > 0){
+                    me.lastUpdated = response.data[newImagesCount - 1].updated_at;
+                    me.insertNewImages(newImagesCount);
+                    me.addToImagesArray(response.data);
+                    me.updateCounter();
+                }
+                setTimeout($.proxy(me.getNewImages, me), me.config.getImagesInterval);
             });
 
+        },
 
-            setTimeout($.proxy(me.getNewImages, me), me.config.getImagesInterval);
-
+        addToImagesArray: function (imagesToAdd)
+        {
+            var me = this;
+            me.images = me.images.concat(imagesToAdd);
+            me.imageCount += imagesToAdd.length;
         },
 
         insertNewImages: function(newCount) {
@@ -155,23 +161,25 @@
                 var img = $('<img>'); //Equivalent: $(document.createElement('img'))
                 img.attr('src', 'assets/' + imageToFeature.source + '/' + imageToFeature.source_id + '.small.jpg');
                 img.attr('style','margin-top:' + (75 + Math.floor(Math.random() * 50)) + 'px; margin-left: ' + Math.floor(Math.random() * 200) + 'px;');
-                img.appendTo(randomSpot);
+                img.load(function(){
+                    img.appendTo(randomSpot);
+                    randomSpot.removeClass('empty');
+                    img.animate({
+                        height: "300",
+                        width: "300",
+                        top: "-=75",
+                        left: "-=75"
+                    }, 1000, function() {
+                        // Animation complete.
+                    });
 
-                randomSpot.removeClass('empty');
-
-                img.animate({
-                    height: "300",
-                    width: "300",
-                    top: "-=75",
-                    left: "-=75"
-                }, 1000, function() {
-                    // Animation complete.
+                    //remove image
+                    setTimeout(function () {
+                        img.remove();
+                        randomSpot.addClass('empty');
+                    }, me.config.featuredImagePeriod);
                 });
 
-                setTimeout(function () {
-                    img.remove();
-                    randomSpot.addClass('empty');
-                }, me.config.featuredImagePeriod);
             }
             setTimeout($.proxy(me.feature, me), me.config.nextFeatureDelay);
 
