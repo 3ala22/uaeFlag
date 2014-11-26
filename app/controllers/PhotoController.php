@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\Paginator;
+use Carbon\Carbon;
 
 class PhotoController extends \BaseController
 {
@@ -16,6 +15,7 @@ class PhotoController extends \BaseController
         $limit = Input::get('limit') ?: 20;
         $status = Input::get('status');
         $source = Input::get('source');
+        $date = Input::get('date');
 
         $sort = Input::get('sort') ?: 'id';
         $order =  Input::get('order') ?: 'asc';
@@ -24,6 +24,12 @@ class PhotoController extends \BaseController
         $query = Photo::orderBy($sort, $order);
         if($status) $query->where('status', '=', $status);
         if($source) $query->where('source', '=', $source);
+        if($date) {
+            $carbonDate = new Carbon($date);
+
+            $query->where('created_at', '>=', $carbonDate->toDateString());
+            $query->where('created_at', '<', $carbonDate->addDay()->toDateString());
+        }
 
         $photos = $query->paginate($limit);
 

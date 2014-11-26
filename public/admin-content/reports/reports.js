@@ -9,7 +9,7 @@ angular.module('flagAdmin.reports', [
         templateUrl: 'admin-content/reports/reports.html',
         controller: 'reportsCtrl'
     })
-}]).controller('reportsCtrl', ['$scope','$http','$timeout', function ($scope, $http, $timeout) {
+}]).controller('reportsCtrl', ['$scope','$http','$timeout','$filter', function ($scope, $http, $timeout, $filter) {
 
     var getStatsPromise = null;
 
@@ -23,13 +23,19 @@ angular.module('flagAdmin.reports', [
         });
     }
 
-    function getPhotos(page, source) {
+    function getPhotos(page, source, status, date) {
         page = page || $scope.paginator.currentPage;
         source = source || $scope.sourceFilter;
+        status = status || $scope.statusFilter;
+        date = date || $scope.dateFilter;
+
+        date = $filter('date')(date,'yyyy-MM-dd');
         $http.get('/api/photo', {
             params: {
                 page: page,
-                source: source
+                source: source,
+                status: status,
+                date: date
             }
         }).success(function (data) {
             $scope.images = data.data;
@@ -39,7 +45,6 @@ angular.module('flagAdmin.reports', [
 
     function getStats()
     {
-        console.log('getting stats',new Date());
         $http.get('/api/stats').success(function(data){
             $scope.stats = data;
         });
@@ -63,9 +68,21 @@ angular.module('flagAdmin.reports', [
     };
 
     $scope.sourceFilter = '';
+    $scope.statusFilter = '';
 
     $scope.$watch('sourceFilter', function(newValue,oldValue){
-        if(newValue != oldValue){
+        if(newValue !== oldValue){
+            getPhotos(1);
+        }
+    });
+    $scope.$watch('statusFilter', function(newValue,oldValue){
+        if(newValue !== oldValue){
+            getPhotos(1);
+        }
+    });
+
+    $scope.$watch('dateFilter', function(newValue,oldValue){
+        if(newValue !== oldValue){
             getPhotos(1);
         }
     });
@@ -77,6 +94,13 @@ angular.module('flagAdmin.reports', [
 
     $scope.filterSet = function(source){
         $scope.sourceFilter = source;
+    };
+
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
     };
 
 

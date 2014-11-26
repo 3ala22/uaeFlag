@@ -40,3 +40,9 @@ tfoot .pagination
 .panel.report-table form .form-group{
     margin-bottom:0;
 }
+
+.panel.report-table form .form-control[readonly]{
+    cursor: default;
+    background-color: #fff;
+
+}
