@@ -74,16 +74,18 @@
     <div class="col-md-lg">
         <div class="panel panel-primary report-table">
             <!-- Default panel contents -->
-            <div class="panel-heading">Photos Report</div>
+            <div class="panel-heading">Photos Report
+                <span class="pull-right">Total <b>{{paginator.total}}</b> records</span>
+            </div>
             <div class="row">
 
                 <div class="col-xs-12">
-                    <form class="form-horizontal source-selector" role="form">
+                    <form class="form-horizontal source-selector" role="form" method="POST" action="/export">
                         <div class="form-group">
                             <label class="col-xs-1 control-label">Source: </label>
 
                             <div class="col-xs-2">
-                                <select class="form-control" ng-model="sourceFilter">
+                                <select name="source" class="form-control" ng-model="sourceFilter">
                                     <option value="">All</option>
                                     <option value="twitter">Twitter</option>
                                     <option value="instagram">Instagram</option>
@@ -94,7 +96,7 @@
                             <label class="col-xs-1 control-label">Status: </label>
 
                             <div class="col-xs-2">
-                                <select class="form-control" ng-model="statusFilter">
+                                <select name="status" class="form-control" ng-model="statusFilter">
                                     <option value="">All</option>
                                     <option value="1">New</option>
                                     <option value="2">Approved</option>
@@ -106,7 +108,9 @@
 
                             <div class="col-xs-2">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ng-click="open($event)" readonly datepicker-popup="dd/MM/yyyy" ng-model="dateFilter" is-open="opened" close-text="Close">
+                                    <input type="text" name="date" class="form-control" ng-click="open($event)" readonly
+                                           datepicker-popup="yyyy-MM-dd" ng-model="dateFilter" is-open="opened"
+                                           close-text="Close">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event)">
                                         <i class="fa fa-calendar"></i>
@@ -116,8 +120,11 @@
                             </div>
 
                             <div class="col-xs-2">
-                                <p class="form-control-static">Total <b>{{paginator.total}}</b> records</p>
+                                <button type="submit" class="btn btn-primary" href="#"><i
+                                        class="fa fa-arrow-down"></i> Export
+                                </button>
                             </div>
+
                         </div>
                     </form>
                 </div>

@@ -125,6 +125,7 @@ return array(
         'Intervention\Image\ImageServiceProvider',
         'Andreyco\Instagram\Support\Laravel\ServiceProvider\Instagram',
         'Thujohn\Twitter\TwitterServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
 
 	),
 
@@ -195,6 +196,7 @@ return array(
         'Instagram'       => 'Andreyco\Instagram\Support\Laravel\Facade\Instagram',
         'Image'           => 'Intervention\Image\Facades\Image',
         'Twitter'         => 'Thujohn\Twitter\TwitterFacade',
+        'Excel'           => 'Maatwebsite\Excel\Facades\Excel',
 
 	),
 

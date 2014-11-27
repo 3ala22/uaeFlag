@@ -30,6 +30,7 @@ Route::group(array('prefix' => 'api'), function () {
     Route::resource('auth', 'AuthenticationController');
 });
 
+Route::post('/export', 'PhotoController@export');
 
 Route::get('/twitter', function () {
 

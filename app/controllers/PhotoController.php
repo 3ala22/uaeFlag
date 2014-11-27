@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PhotoController extends \BaseController
 {
@@ -13,29 +14,14 @@ class PhotoController extends \BaseController
     public function index()
     {
         $limit = Input::get('limit') ?: 20;
-        $status = Input::get('status');
-        $source = Input::get('source');
-        $date = Input::get('date');
 
-        $sort = Input::get('sort') ?: 'id';
-        $order =  Input::get('order') ?: 'asc';
-
-
-        $query = Photo::orderBy($sort, $order);
-        if($status) $query->where('status', '=', $status);
-        if($source) $query->where('source', '=', $source);
-        if($date) {
-            $carbonDate = new Carbon($date);
-
-            $query->where('created_at', '>=', $carbonDate->toDateString());
-            $query->where('created_at', '<', $carbonDate->addDay()->toDateString());
-        }
+        $query = $this->getQuery();
 
         $photos = $query->paginate($limit);
 
         return [
             'data' => $this->transformCollection($photos->getCollection()),
-            'paginator' =>[
+            'paginator' => [
                 'currentPage' => $photos->getCurrentPage(),
                 'limit' => $photos->getPerPage(),
                 'total' => $photos->getTotal(),
@@ -65,8 +51,8 @@ class PhotoController extends \BaseController
 
         $photo->save();
 
-        if($photo->status == 2) // if approved
-            $photo->resize(24,24);
+        if ($photo->status == 2) // if approved
+            $photo->resize(24, 24);
 
         return Response::json([
             'data' => $photo
@@ -81,19 +67,66 @@ class PhotoController extends \BaseController
             ->groupBy('source')
             ->get();
 
-       foreach ($result as $value)
-       {
-           $response[$value->source] = $value->total;
-       }
+        foreach ($result as $value) {
+            $response[$value->source] = $value->total;
+        }
         return $response;
 
     }
 
-    private function transformCollection($photos)
+    public function export()
     {
-        return array_map([$this,'transform'], $photos->toArray());
+        $now = date('d-m-Y_H-i-s');
+
+        Excel::create($now , function ($excel) {
+            $excel->sheet('Sheet 1', function ($sheet) {
+                $query = $this->getQuery();
+                $sheet->fromArray($this->transformCollection($query->get(), 'transformExcel'));
+            });
+
+        })->export('xlsx');
+    }
+
+    private function getQuery()
+    {
+        $status = Input::get('status');
+        $source = Input::get('source');
+        $date = Input::get('date');
+
+        $sort = Input::get('sort') ?: 'id';
+        $order = Input::get('order') ?: 'asc';
+
+
+        $query = Photo::orderBy($sort, $order);
+        if ($status) $query->where('status', '=', $status);
+        if ($source) $query->where('source', '=', $source);
+        if ($date) {
+            $carbonDate = new Carbon($date);
+            $query->where('created_at', '>=', $carbonDate->toDateString());
+            $query->where('created_at', '<', $carbonDate->addDay()->toDateString());
+        }
+
+        return $query;
+    }
+
+    private function transformCollection($photos, $transformFn = 'transform')
+    {
+        return array_map([$this, $transformFn], $photos->toArray());
 
     }
+
+    private function transformExcel($photo)
+    {
+        $statuses = [1 => 'New', 2 => 'Approved', 3 => 'Rejected'];
+        return [
+            'Date' => date('d F, Y H:i:s', strtotime($photo['created_at'])),
+            'Source' => $photo['source'],
+            'Username' => $photo['user_name'],
+            'Status' => $statuses[$photo['status']]
+        ];
+
+    }
+
 
     private function transform($photo)
     {
@@ -107,11 +140,9 @@ class PhotoController extends \BaseController
             'user_id' => $photo['user_id'],
             'user_name' => $photo['user_name'],
             'status' => $photo['status'],
-            'created_at' => date('d F, Y H:i:s',strtotime($photo['created_at'])),
-            'updated_at' => date('d F, Y H:i:s',strtotime($photo['updated_at']))
+            'created_at' => date('d F, Y H:i:s', strtotime($photo['created_at'])),
+            'updated_at' => date('d F, Y H:i:s', strtotime($photo['updated_at']))
         ];
-
-
     }
 
 
