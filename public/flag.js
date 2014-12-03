@@ -14,8 +14,8 @@
             insertDelay: 100,
             getImagesInterval: 5000,
             toggleBannerInterval: 5000,
-            emptyThreshold: 500,
-            firstFillThreshold: 1250,
+            emptyThreshold: 0,
+            firstFillThreshold: 0,
             featureStartDelay: 5000,
             featuredImagePeriod: 8000,
             nextFeatureDelay: 2000
@@ -28,6 +28,7 @@
             this.lastUpdated = 0;
             this.images = [];
             this.currentBannerIndex = 0;
+            this.featureQueue = [];
 
             // show images
             this.bootstrapFlag();
@@ -40,6 +41,9 @@
 
             // feature images
             setTimeout($.proxy(this.feature,this),this.config.featureStartDelay);
+
+            // feature queue images
+            setTimeout($.proxy(this.featureQueueImages,this),this.config.featureStartDelay);
 
         },
 
@@ -97,10 +101,15 @@
                 var newImagesCount = response.data.length;
 
                 if(newImagesCount > 0){
+                    // if not first time
+                    if(me.lastUpdated)
+                        me.featureQueue = me.featureQueue.concat(response.data);
+
                     me.lastUpdated = response.data[newImagesCount - 1].updated_at;
                     me.insertNewImages(newImagesCount);
                     me.addToImagesArray(response.data);
                     me.updateCounter();
+                    
                 }
                 setTimeout($.proxy(me.getNewImages, me), me.config.getImagesInterval);
             });
@@ -150,20 +159,51 @@
 
         feature: function () {
             var me = this,
+                imagesSource = me.images,
                 imageToFeature,
                 emptySpots, randomSpot;
 
-            if(me.images.length > 0) {
-                imageToFeature = pickRandomElement(me.images);
+            if(imagesSource.length > 0) {
+
+                imageToFeature = pickRandomElement(imagesSource);
                 emptySpots = me.$featureContainers.filter('.empty');
                 randomSpot = $(pickRandomElement(emptySpots));
 
-                var img = $('<img>'); //Equivalent: $(document.createElement('img'))
+                me.featureImage(imageToFeature, randomSpot);
+
+            }
+            setTimeout($.proxy(me.feature, me), me.config.nextFeatureDelay);
+
+        },
+        featureQueueImages: function () {
+            var me = this,
+                imagesSource = me.featureQueue,
+                imageToFeature,
+                emptySpots, randomSpot;
+
+            if(imagesSource.length > 0) {
+                imageToFeature = imagesSource.pop();
+                emptySpots = me.$featureContainers.filter('.empty');
+                randomSpot = $(pickRandomElement(emptySpots));
+
+                me.featureImage(imageToFeature, randomSpot);
+
+            }
+            setTimeout($.proxy(me.featureQueueImages, me), me.config.nextFeatureDelay);
+
+        },
+
+
+        featureImage: function(imageToFeature, spot)
+        {
+            var me = this,
+                img = $('<img>');
+
                 img.attr('src', 'assets/' + imageToFeature.source + '/' + imageToFeature.source_id + '.small.jpg');
                 img.attr('style','margin-top:' + (75 + Math.floor(Math.random() * 50)) + 'px; margin-left: ' + Math.floor(Math.random() * 200) + 'px;');
                 img.load(function(){
-                    img.appendTo(randomSpot);
-                    randomSpot.removeClass('empty');
+                    img.appendTo(spot);
+                    spot.removeClass('empty');
                     img.animate({
                         height: "300",
                         width: "300",
@@ -176,15 +216,11 @@
                     //remove image
                     setTimeout(function () {
                         img.remove();
-                        randomSpot.addClass('empty');
+                        spot.addClass('empty');
                     }, me.config.featuredImagePeriod);
                 });
-
-            }
-            setTimeout($.proxy(me.feature, me), me.config.nextFeatureDelay);
-
         }
-
+        
     };
 
     flag.init();
